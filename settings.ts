@@ -9,7 +9,7 @@ export interface EmbedCodeFileSettings {
 }
 
 export const DEFAULT_SETTINGS: EmbedCodeFileSettings = {
-	includedLanguages: 'c,cs,cpp,java,python,go,ruby,javascript,js,typescript,ts,shell,sh,bash',
+	includedLanguages: 'c,cs,cpp,java,python,go,ruby,javascript,js,typescript,ts,shell,sh,bash,css,json',
 	titleBackgroundColor: "#00000020",
 	titleFontColor: ""
 }
