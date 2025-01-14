@@ -1,6 +1,6 @@
 import { Plugin, MarkdownRenderer, TFile, MarkdownPostProcessorContext, MarkdownView, parseYaml, requestUrl} from 'obsidian';
-import { EmbedCodeFileSettings, EmbedCodeFileSettingTab, DEFAULT_SETTINGS} from "./settings";
-import { analyseSrcLines, extractSrcLines} from "./utils";
+import { EmbedCodeFileSettings, EmbedCodeFileSettingTab, DEFAULT_SETTINGS} from './settings';
+import { analyseSrcLines, extractSrcLines} from './utils';
 
 export default class EmbedCodeFile extends Plugin {
 	settings: EmbedCodeFileSettings;
@@ -54,12 +54,12 @@ export default class EmbedCodeFile extends Plugin {
 				srcPath = srcPath.replace(/^(vault:\/\/)/,'');
 
 				// Obtener el archivo de la bóveda utilizando la ruta proporcionada
-				const tFile = app.vault.getAbstractFileByPath(srcPath)
+				const tFile = this.app.vault.getAbstractFileByPath(srcPath)
 
 				// Verificar si el archivo existe y es un archivo TFile (archivo de texto)
 				if (tFile instanceof TFile) {
 					// Leer el contenido del archivo
-					fullSrc = await app.vault.read(tFile)
+					fullSrc = await this.app.vault.read(tFile)
 				} else {
 					// Mostrar un mensaje de error si el archivo no se puede leer
 					const errMsg = `\`ERROR: could't read file '${srcPath}'\``
@@ -73,10 +73,7 @@ export default class EmbedCodeFile extends Plugin {
 					let httpResp = await requestUrl({url: srcPath, method: "GET"})
 					fullSrc = httpResp.text
 				} catch(e) {
-					// Mostrar un mensaje de error si no se puede obtener el archivo desde la URL remota
-					const errMsg = `\`ERROR: could't fetch '${srcPath}'\``
-					await MarkdownRenderer.renderMarkdown(errMsg, el, '', this)
-					return
+					 // Handle the error
 				}
 			}
 
@@ -128,7 +125,7 @@ export default class EmbedCodeFile extends Plugin {
 			return
 		}
 
-		const view = app.workspace.getActiveViewOfType(MarkdownView)
+		const view = this.app.workspace.getActiveViewOfType(MarkdownView)
 		if (!view) {
 			return
 		}
